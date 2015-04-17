@@ -13,10 +13,10 @@
     <div>
         <h3><input ng-model="new.name" placeholder="Word Name"></h3>
         <br>
-        <h5><input ng-repeat="(key,meaning) in new.meanings track by $index" ng-model="meaning['wz'+$index]" placeholder="Meaning {{$index+1}}"></h5>
-        <button ng-click="new.meanings[new.meanings.length]['wz'+ (new.meanings.length)]=''">+ | Add Another Meaning</button>
+        <h5><input ng-repeat="(key,meaning) in new.meanings track by $index" ng-model="meaning[$index]" placeholder="Meaning {{$index+1}}"></h5>
+        <button ng-click="new.meanings[new.meanings.length]=''">+ | Add Another Meaning</button>
         <br>
-        <button ng-disabled="!new.name" ng-click="wordSave(new); new={name:'',  meanings:[{wz0:''},{wz1:''}]}">+ | Add New Word</button>
+        <button ng-disabled="!new.name" ng-click="wordSave(new); new={name:'',  meanings:['','']}">+ | Add New Word</button>
     </div></section>
 
 
@@ -32,19 +32,19 @@
 
             <div ng-repeat="meaning in wordGroup.meanings">
                 <div ng-show="meaning.length>0" ng-repeat="(key, meaning) in meaning">
-                    {{key}}:
+                    wz{{$parent.$index}}:
                     <input ng-model="meaning" ng-blur="$parent.meaning[key]=meaning; update($parent.$parent.wordListObject);">
                     <code ng-show="!showRemoveMeaning" ng-click="showRemoveMeaning = true">
                         x | Remove this Meaning
                     </code>
                     <a href ng-show="showRemoveMeaning" ng-click="showRemoveMeaning =! showRemoveMeaning">Back</a>
-                    <code ng-show="showRemoveMeaning" ng-click="$parent.wordGroup.meanings.splice($index,1)">
+                    <code ng-show="showRemoveMeaning" ng-click="$parent.wordGroup.meanings.splice($parent.$index,1); showRemoveMeaning =! showRemoveMeaning">
                         <b>remove now?</b>
                     </code>
                 </div>
             </div>
             <hr/>
-            <button ng-click="wordGroup.meanings[wordGroup.meanings.length]['wz'+(wordGroup.meanings.length-1)]=' '">+ | Add Another Meaning</button>
+            <button ng-click="wordGroup.meanings[wordGroup.meanings.length][wordGroup.meanings.length]=' '">+ | Add Another Meaning</button>
             <hr/>
             <code ng-show="!showRemoveWord" ng-click="showRemoveWord = true">
                 x | Remove this Word

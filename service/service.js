@@ -18,7 +18,7 @@ var adolfSrv = function($firebaseObject, $firebaseArray, Firebase){
         service.data.wordListArray.$add(wordEntry);
     };
     service.api.remove = function(id, arr){
-        console.log(arr ,id);
+        console.log(arr, id);
         arr.$remove(id);
     };
     service.api.update = function(obj, val){
