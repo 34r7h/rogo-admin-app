@@ -50,7 +50,7 @@
                 x | Remove this Word
             </code>
             <a href ng-show="showRemoveWord" ng-click="showRemoveWord =! showRemoveWord">Back</a>
-            <code ng-show="showRemoveWord" ng-click="remove($index, $parent.wordListArray); showRemoveWord =! showRemoveWord; $parent.adminSearch = ''">
+            <code ng-show="showRemoveWord" ng-click="remove($index, $parent.wordListArray); showRemoveWord =! showRemoveWord; $parent.$parent.adminSearch = ''">
                 <b>remove now?</b>
             </code>
             <hr>
