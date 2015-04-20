@@ -18,16 +18,14 @@ var adolfSrv = function($firebaseObject, $firebaseArray, Firebase){
         service.data.wordListArray.$add(wordEntry);
     };
     service.api.remove = function(id, arr){
-        console.log(arr, id);
         arr.$remove(id);
     };
     service.api.update = function(obj, val){
-        console.log(val,obj);
         obj.$save();
     };
 
     // define data model for new words
-    service.models.newWord={name:'', meanings:[{wz0:''},{wz1:''}]};
+    service.models.newWord={name:'New Word', meanings:['meaning 1','meaning 2']};
 
     // object to be injected in controller
     return service;

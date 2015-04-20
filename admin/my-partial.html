@@ -10,13 +10,13 @@
     <p>Enter a new word name and it's meanings below, then click on the <i>'Add New Word'</i> button</p>
 
 
-    <div>
-        <h3><input ng-model="new.name" placeholder="Word Name"></h3>
+    <div ng-init="newWord = new">
+        <h3><input ng-model="newWord.name" placeholder="Word Name"></h3>
         <br>
-        <h5><input ng-repeat="(key,meaning) in new.meanings track by $index" ng-model="meaning[$index]" placeholder="Meaning {{$index+1}}"></h5>
-        <button ng-click="new.meanings[new.meanings.length]=''">+ | Add Another Meaning</button>
+        <h5 ng-repeat="meaning in newWord.meanings track by $index"><input ng-model="meaning" placeholder="Meaning {{$index+1}}"></h5>
+        <button ng-click="newWord.meanings.push('Another Meaning')">+ | Add Another Meaning</button>
         <br>
-        <button ng-disabled="!new.name" ng-click="wordSave(new); new={name:'',  meanings:['','']}">+ | Add New Word</button>
+        <button ng-disabled="!new.name" ng-click="wordSave(newWord); newWord=new">+ | Add New Word</button>
     </div></section>
 
 
@@ -30,21 +30,19 @@
         <code ng-if="wordGroup.name === adminSearch" ng-repeat="wordGroup in data">
             <div><h3>{{$index+1}}. <input type="text" ng-model="wordGroup.name"></h3></div>
 
-            <div ng-repeat="meaning in wordGroup.meanings">
-                <div ng-show="meaning.length>0" ng-repeat="(key, meaning) in meaning">
-                    wz{{$parent.$index}}:
-                    <input ng-model="meaning" ng-blur="$parent.meaning[key]=meaning; update($parent.$parent.wordListObject);">
-                    <code ng-show="!showRemoveMeaning" ng-click="showRemoveMeaning = true">
-                        x | Remove this Meaning
-                    </code>
-                    <a href ng-show="showRemoveMeaning" ng-click="showRemoveMeaning =! showRemoveMeaning">Back</a>
-                    <code ng-show="showRemoveMeaning" ng-click="$parent.wordGroup.meanings.splice($parent.$index,1); showRemoveMeaning =! showRemoveMeaning">
-                        <b>remove now?</b>
-                    </code>
-                </div>
+            <div ng-repeat="(key,meaning) in wordGroup.meanings track by $index">
+                wz{{$index}}:
+                <input ng-model="meaning" ng-blur="$parent.wordGroup.meanings[key]=meaning; update($parent.wordListObject);">
+                <code ng-show="!showRemoveMeaning" ng-click="showRemoveMeaning = true">
+                    x | Remove this Meaning
+                </code>
+                <a href ng-show="showRemoveMeaning" ng-click="showRemoveMeaning =! showRemoveMeaning">Back</a>
+                <code ng-show="showRemoveMeaning" ng-click="wordGroup.meanings.splice($index,1); showRemoveMeaning =! showRemoveMeaning">
+                    <b>remove now?</b>
+                </code>
             </div>
             <hr/>
-            <button ng-click="wordGroup.meanings[wordGroup.meanings.length][wordGroup.meanings.length]=' '">+ | Add Another Meaning</button>
+            <button ng-click="wordGroup.meanings.push('Another Meaning')">+ | Add Another Meaning</button>
             <hr/>
             <code ng-show="!showRemoveWord" ng-click="showRemoveWord = true">
                 x | Remove this Word
