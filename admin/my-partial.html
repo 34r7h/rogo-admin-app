@@ -27,8 +27,14 @@
     <div>
         <label for="admin-search">Search for word to edit</label>
         <h3><input id="admin-search" type="text" ng-model="adminSearch"><button ng-click="adminSearch=''">Clear Search</button></h3>
-        <code ng-if="wordGroup.name === adminSearch" ng-repeat="wordGroup in data">
-            <div><h3>{{$index+1}}. <input type="text" ng-model="wordGroup.name"></h3></div>
+        <code ng-if="wordGroup.name === adminSearch || showChangeName" ng-repeat="wordGroup in data">
+            <div>
+                <h2 ng-show="!$parent.showChangeName" ng-click="$parent.showChangeName =! $parent.showChangeName">{{wordGroup.name}}</h2>
+                <h3 ng-show="$parent.showChangeName">
+                    <input ng-model="wordGroup.name"/>
+                    <button ng-click="$parent.showChangeName =! $parent.showChangeName">Return</button>
+                </h3>
+            </div>
 
             <div ng-repeat="(key,meaning) in wordGroup.meanings track by $index">
                 wz{{$index}}:
