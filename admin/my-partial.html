@@ -10,13 +10,13 @@
     <p>Enter a new word name and it's meanings below, then click on the <i>'Add New Word'</i> button</p>
 
 
-    <div ng-init="newWord = new">
+    <div ng-init="newWord = {name:'New Word', meanings:['meaning 1','meaning 2']}">
         <h3><input ng-model="newWord.name" placeholder="Word Name"></h3>
         <br>
-        <h5 ng-repeat="meaning in newWord.meanings track by $index"><input ng-model="meaning" placeholder="Meaning {{$index+1}}"></h5>
+        <h5 ng-repeat="meaning in newWord.meanings track by $index"><input ng-model="newWord.meanings[$index]" placeholder="Meaning {{$index+1}}"></h5>
         <button ng-click="newWord.meanings.push('Another Meaning')">+ | Add Another Meaning</button>
         <br>
-        <button ng-disabled="!new.name" ng-click="wordSave(newWord); newWord=new">+ | Add New Word</button>
+        <button ng-disabled="newWord.name.length < 2" ng-click="wordSave(newWord); newWord = {name:'Another New Word', meanings:['meaning 1','meaning 2']}">+ | Add New Word</button>
     </div></section>
 
 

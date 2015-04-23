@@ -25,7 +25,6 @@ var adolfSrv = function($firebaseObject, $firebaseArray, Firebase){
     };
 
     // define data model for new words
-    service.models.newWord={name:'New Word', meanings:['meaning 1','meaning 2']};
 
     // object to be injected in controller
     return service;
