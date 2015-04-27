@@ -26,8 +26,11 @@
     <hr>
     <div>
         <label for="admin-search">Search for word to edit</label>
-        <h3><input id="admin-search" type="text" ng-model="adminSearch"><button ng-click="adminSearch=''">Clear Search</button></h3>
-        <code ng-if="wordGroup.name === adminSearch || showChangeName" ng-repeat="wordGroup in data">
+        <h3>
+            <input id="admin-search" type="text" ng-model="adminSearch.name">
+            <button ng-click="adminSearch.name=''">Clear Search</button>
+        </h3>
+        <code ng-if="wordGroup.name === adminSearch.name || showChangeName" ng-repeat="wordGroup in data">
             <div>
                 <h2 ng-show="!$parent.showChangeName" ng-click="$parent.showChangeName =! $parent.showChangeName">{{wordGroup.name}}</h2>
                 <h3 ng-show="$parent.showChangeName">
@@ -61,7 +64,7 @@
         </code>
         <h5>Browse words and click them to edit.</h5>
         <div ng-repeat="wordGroup in wordListArray | filter:adminSearch | orderBy: 'name' | limitTo:100">
-            <a href ng-click="$parent.adminSearch=wordGroup.name">{{wordGroup.name}}</a>
+            <a href ng-click="$parent.adminSearch.name=wordGroup.name">{{wordGroup.name}}</a>
         </div>
 
     </div></section>
@@ -69,5 +72,9 @@
     <section ng-show="section === 'editTextSection'"><h2>Edit Text</h2>
     <p>Edit the static text below.</p>
     <textarea class="col-xs-12" ng-model="text.$value"></textarea></section>
+
+    <section ng-show="section === 'editTextSection'"><h2>Edit Documentation</h2>
+    <p>Edit the documentation text below.</p>
+    <textarea class="col-xs-12" ng-model="docs.text"></textarea></section>
 
 </div>

@@ -6,12 +6,17 @@ var adolfSrv = function($firebaseObject, $firebaseArray, Firebase){
     // gather and prepare data
     var wordList = new Firebase('https://adolf.firebaseio.com/wordList');
     var text = new Firebase('https://adolf.firebaseio.com/text');
+    var documentation = new Firebase('https://adolf.firebaseio.com/documentation');
     var obj = $firebaseObject(wordList);
     var arr = $firebaseArray(wordList);
     var textObj = $firebaseObject(text);
+    var docs = $firebaseObject(documentation);
+    console.log(docs);
+
     service.data.wordListObject = obj;
     service.data.wordListArray = arr;
     service.data.textObj = textObj;
+    service.data.documentation = docs;
 
     // define database methods
     service.api.wordSave = function(wordEntry){
