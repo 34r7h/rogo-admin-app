@@ -133,21 +133,21 @@ module.exports = function (grunt) {
     concat: {
       main: {
         src: ['<%= dom_munger.data.appjs %>','<%= ngtemplates.main.dest %>'],
-        dest: 'temp/app.full.js'
+        dest: 'dist/app.full.min.js'
       }
     },
-    ngAnnotate: {
+    /*ngAnnotate: {
       main: {
         src:'temp/app.full.js',
         dest: 'temp/app.full.js'
       }
-    },
-    uglify: {
+    },*/
+    /*uglify: {
       main: {
         src: 'temp/app.full.js',
         dest:'dist/app.full.min.js'
       }
-    },
+    },*/
     htmlmin: {
       main: {
         options: {
@@ -196,11 +196,11 @@ module.exports = function (grunt) {
       },
       during_watch: {
         browsers: ['PhantomJS']
-      },
+      }
     }
   });
 
-  grunt.registerTask('build',['jshint','clean:before','less','dom_munger','ngtemplates','cssmin','concat','ngAnnotate','uglify','copy','htmlmin','clean:after']);
+  grunt.registerTask('build',['jshint','clean:before','less','dom_munger','ngtemplates','cssmin','concat',/*'ngAnnotate',*//*'uglify',*/'copy','htmlmin','clean:after']);
   grunt.registerTask('serve', ['dom_munger:read','jshint','connect', 'watch']);
   grunt.registerTask('test',['dom_munger:read','karma:all_tests']);
 
