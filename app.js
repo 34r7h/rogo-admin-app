@@ -1,4 +1,4 @@
-angular.module('rogoadmin', ['firebase', 'ui.bootstrap','ui.utils','ui.router','ngAnimate']);
+angular.module('rogoadmin', ['firebase', 'ui.bootstrap','ui.utils','ui.router', 'wysiwyg.module']);
 
 angular.module('rogoadmin').config(function($stateProvider, $urlRouterProvider) {
 

@@ -7,73 +7,91 @@
         <li ng-click="section = 'editTextSection'" role="presentation"><a href="#">Edit Text</a></li>
     </ul>
     <section ng-show="section === 'addWordSection'"><h2>Add Words</h2>
-    <p>Enter a new word name and it's meanings below, then click on the <i>'Add New Word'</i> button</p>
+        <p>Enter a new word name and it's meanings below, then click on the <i>'Add New Word'</i> button</p>
 
 
-    <div ng-init="newWord = {name:'New Word', meanings:['meaning 1','meaning 2']}">
-        <h3><input ng-model="newWord.name" placeholder="Word Name"></h3>
-        <br>
-        <h5 ng-repeat="meaning in newWord.meanings track by $index"><input ng-model="newWord.meanings[$index]" placeholder="Meaning {{$index+1}}"></h5>
-        <button ng-click="newWord.meanings.push('Another Meaning')">+ | Add Another Meaning</button>
-        <br>
-        <button ng-disabled="newWord.name.length < 2" ng-click="wordSave(newWord); newWord = {name:'Another New Word', meanings:['meaning 1','meaning 2']}">+ | Add New Word</button>
-    </div></section>
+        <div ng-init="newWord = {name:'New Word', meanings:['meaning 1','meaning 2']}">
+            <h3><input ng-model="newWord.name" placeholder="Word Name"></h3>
+            <br>
+            <h5 ng-repeat="meaning in newWord.meanings track by $index"><input ng-model="newWord.meanings[$index]"
+                                                                               placeholder="Meaning {{$index+1}}"></h5>
+            <button ng-click="newWord.meanings.push('Another Meaning')">+ | Add Another Meaning</button>
+            <br>
+            <button ng-disabled="newWord.name.length < 2"
+                    ng-click="wordSave(newWord); newWord = {name:'Another New Word', meanings:['meaning 1','meaning 2']}">
+                + | Add New Word
+            </button>
+        </div>
+    </section>
 
 
     <section ng-show="section === 'editWordSection'"><h2>Edit Words</h2>
-    <p>Edit word meanings or remove entire words from the database below. Use the '+ | Add Another Meaning' button to add another meaning or the 'x | Remove this Word' to remove the word</p>
+        <p>Edit word meanings or remove entire words from the database below. Use the '+ | Add Another Meaning' button
+            to add another meaning or the 'x | Remove this Word' to remove the word</p>
 
-    <hr>
-    <div>
-        <label for="admin-search">Search for word to edit</label>
-        <h3>
-            <input id="admin-search" type="text" ng-model="adminSearch.name">
-            <button ng-click="adminSearch.name=''">Clear Search</button>
-        </h3>
-        <code ng-if="wordGroup.name === adminSearch.name || showChangeName" ng-repeat="wordGroup in data">
-            <div>
-                <h2 ng-show="!$parent.showChangeName" ng-click="$parent.showChangeName =! $parent.showChangeName">{{wordGroup.name}}</h2>
-                <h3 ng-show="$parent.showChangeName">
-                    <input ng-model="wordGroup.name"/>
-                    <button ng-click="$parent.showChangeName =! $parent.showChangeName">Return</button>
-                </h3>
-            </div>
+        <hr>
+        <div>
+            <label for="admin-search">Search for word to edit</label>
+            <h3>
+                <input id="admin-search" type="text" ng-model="adminSearch.name">
+                <button ng-click="adminSearch.name=''">Clear Search</button>
+            </h3>
+            <code ng-if="wordGroup.name === adminSearch.name || showChangeName" ng-repeat="wordGroup in data">
+                <div>
+                    <h2 ng-show="!$parent.showChangeName" ng-click="$parent.showChangeName =! $parent.showChangeName">
+                        {{wordGroup.name}}</h2>
+                    <h3 ng-show="$parent.showChangeName">
+                        <input ng-model="wordGroup.name"/>
+                        <button ng-click="$parent.showChangeName =! $parent.showChangeName">Return</button>
+                    </h3>
+                </div>
 
-            <div ng-repeat="(key,meaning) in wordGroup.meanings track by $index">
-                wz{{$index}}:
-                <input ng-model="meaning" ng-blur="$parent.wordGroup.meanings[key]=meaning; update($parent.wordListObject);">
-                <code ng-show="!showRemoveMeaning" ng-click="showRemoveMeaning = true">
-                    x | Remove this Meaning
+                <div ng-repeat="(key,meaning) in wordGroup.meanings track by $index">
+                    wz{{$index}}:
+                    <input ng-model="meaning"
+                           ng-blur="$parent.wordGroup.meanings[key]=meaning; update($parent.wordListObject);">
+                    <code ng-show="!showRemoveMeaning" ng-click="showRemoveMeaning = true">
+                        x | Remove this Meaning
+                    </code>
+                    <a href ng-show="showRemoveMeaning" ng-click="showRemoveMeaning =! showRemoveMeaning">Back</a>
+                    <code ng-show="showRemoveMeaning"
+                          ng-click="wordGroup.meanings.splice($index,1); showRemoveMeaning =! showRemoveMeaning">
+                        <b>remove now?</b>
+                    </code>
+                </div>
+                <hr/>
+                <button ng-click="wordGroup.meanings.push('Another Meaning')">+ | Add Another Meaning</button>
+                <hr/>
+                <code ng-show="!showRemoveWord" ng-click="showRemoveWord = true">
+                    x | Remove this Word
                 </code>
-                <a href ng-show="showRemoveMeaning" ng-click="showRemoveMeaning =! showRemoveMeaning">Back</a>
-                <code ng-show="showRemoveMeaning" ng-click="wordGroup.meanings.splice($index,1); showRemoveMeaning =! showRemoveMeaning">
+                <a href ng-show="showRemoveWord" ng-click="showRemoveWord =! showRemoveWord">Back</a>
+                <code ng-show="showRemoveWord"
+                      ng-click="remove($index, $parent.wordListArray); showRemoveWord =! showRemoveWord; $parent.$parent.adminSearch = ''">
                     <b>remove now?</b>
                 </code>
+                <hr>
+            </code>
+            <h5>Browse words and click them to edit.</h5>
+            <div ng-repeat="wordGroup in wordListArray | filter:adminSearch | orderBy: 'name' | limitTo:100">
+                <a href ng-click="$parent.adminSearch.name=wordGroup.name">{{wordGroup.name}}</a>
             </div>
-            <hr/>
-            <button ng-click="wordGroup.meanings.push('Another Meaning')">+ | Add Another Meaning</button>
-            <hr/>
-            <code ng-show="!showRemoveWord" ng-click="showRemoveWord = true">
-                x | Remove this Word
-            </code>
-            <a href ng-show="showRemoveWord" ng-click="showRemoveWord =! showRemoveWord">Back</a>
-            <code ng-show="showRemoveWord" ng-click="remove($index, $parent.wordListArray); showRemoveWord =! showRemoveWord; $parent.$parent.adminSearch = ''">
-                <b>remove now?</b>
-            </code>
-            <hr>
-        </code>
-        <h5>Browse words and click them to edit.</h5>
-        <div ng-repeat="wordGroup in wordListArray | filter:adminSearch | orderBy: 'name' | limitTo:100">
-            <a href ng-click="$parent.adminSearch.name=wordGroup.name">{{wordGroup.name}}</a>
+
         </div>
+    </section>
 
-    </div></section>
-
-    <section ng-show="section === 'editTextSection'"><h2>Edit Text</h2>
-    <p>Edit the static text below.</p>
-    <textarea class="col-xs-12" ng-model="text.$value"></textarea></section>
+    <section ng-show="section === 'editTextSection'"><h2>Edit Docs</h2>
+        <p>Edit the documentation text below.</p>
+        <!--<textarea class="col-xs-12" ng-model="text.$value"></textarea>-->
+        <wysiwyg textarea-id="question" textarea-class="form-control" textarea-height="80px"
+                 textarea-name="textareaQuestion" ng-model="text.$value"
+                 enable-bootstrap-title="true" ></wysiwyg>
+    </section>
     <hr/>
-    <section ng-show="section === 'editTextSection'"><h2>Edit Documentation</h2>
-    <p>Edit the documentation text below.</p>
-    <textarea class="col-xs-12" ng-model="docs.text"></textarea></section>
+    <section ng-show="section === 'editTextSection'"><h2>Edit Text</h2>
+        <!--<textarea class="col-xs-12" ng-model="docs.text"></textarea>-->
+        <p>Edit the static text below.</p><wysiwyg textarea-id="question" textarea-class="form-control" textarea-height="80px"
+                 textarea-name="textareaQuestion" ng-model="docs.text"
+                 enable-bootstrap-title="true" ></wysiwyg>
+    </section>
 </div>
