@@ -21,7 +21,7 @@
     "angular-bootstrap": "~0.10",
     "moment": "~2.5",
     "less.js": "~1.6",
-    "font-awesome": "~4.0",
+    "font-awesome": "^4.5.0",
     "angular-wysiwyg": "^1.2.4",
     "angularfire": "^1.1.4",
     "angular-bootstrap-colorpicker": "^3.0.24"
